@@ -1,0 +1,7 @@
+{
+  "name": "detector",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
