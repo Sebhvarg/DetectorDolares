@@ -17,7 +17,7 @@
   @if(imageReady()) {
     <ion-card>
 
-      <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
+      <img #image [src]="imageUrl()" alt="Imagen seleccionada" style="width: fit-content;" />
 
       <!-- CARGA DE PREDICCIÓN - INICIO -->
       @if(modelLoaded()) {
@@ -52,6 +52,9 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button (click)="fileInput.click()">
       <ion-icon name="cloud-upload-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="openCamera()">
+      <ion-icon name="camera-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 

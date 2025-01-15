@@ -9,6 +9,8 @@ import { addIcons } from 'ionicons';
 import { cloudUploadOutline } from 'ionicons/icons';
 import { TeachablemachineService } from '../services/teachablemachine.service';
 import { PercentPipe } from '@angular/common';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 
 @Component({
   selector: 'app-tab1',
@@ -27,6 +29,7 @@ export class Tab1Page implements OnInit {
   @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
   imageReady = signal(false)
   imageUrl = signal("")
+  captureImage: string | undefined;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -73,5 +76,47 @@ export class Tab1Page implements OnInit {
       alert('Error al realizar la predicción.');
     }
   }
-
+  async openCamera() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera,
+      });
+  
+      this.captureImage = image.base64String;
+  
+      // Verifica que `this.captureImage` no sea undefined antes de asignar
+      this.imageUrl.set(this.captureImage || ''); // Usa un valor vacío como fallback
+      this.imageReady.set(true);
+    } catch (error) {
+      console.error('Error al abrir la cámara:', error);
+      alert('Error al acceder a la cámara.');
+    }
+  }
+  async openGallery() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Photos,
+      });
+  
+      this.captureImage = image.base64String;
+  
+      // Verifica que `this.captureImage` no sea undefined antes de asignar
+      this.imageUrl.set(this.captureImage || ''); // Usa un valor vacío como fallback
+      this.imageReady.set(true);
+    } catch (error) {
+      console.error('Error al abrir la galería:', error);
+      alert('Error al acceder a la galería.');
+    }
+  }
+  async clearImage() {
+    this.imageUrl.set('');
+    this.imageReady.set(false);
+  }
+    
 }
