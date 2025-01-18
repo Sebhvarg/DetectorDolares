@@ -14,13 +14,13 @@
   </ion-header>
 
   <!-- CARGA DE IMAGEN - INICIO -->
-  @if(imageReady()) {
+  @if (imageReady()) {
     <ion-card>
 
-      <img #image [src]="imageUrl()" alt="Imagen seleccionada" style="width: fit-content;" />
+      <img #image [src]="imageUrl()" alt="Imagen seleccionada" style="width: fit-content;"/>
 
       <!-- CARGA DE PREDICCIÓN - INICIO -->
-      @if(modelLoaded()) {
+      @if (modelLoaded()) {
 
         <div class="ion-text-center ion-padding-top ion-padding-bottom">
           <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
@@ -28,13 +28,13 @@
 
         <ion-list>
           <ion-item>
-            <ion-label>Clases:  {{ classLabels  }} </ion-label>
+            <ion-label>Clases:  {{ classLabels }}</ion-label>
           </ion-item>
 
           <!-- Itere sobre la lista de predicciones -->
           @for (item of predictions; track $index) {
             <ion-item>
-              <ion-label> {{  item?.className  }} :  {{  item?.probability | percent  }} </ion-label>
+              <ion-label> {{ item?.className }} :  {{ item?.probability | percent }}</ion-label>
             </ion-item>
           }
         </ion-list>
@@ -46,10 +46,10 @@
   <!-- CARGA DE IMAGEN - FIN -->
 
   <!-- Referencia en plantilla #fileInput, callback para el evento change y oculte el elemento -->
-  <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+  <input #fileInput (change)="onFileSelected($event)" accept="image/*" hidden type="file"/>
 
   <!-- Disparo del evento click de fileInput -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab horizontal="center" slot="fixed" vertical="bottom">
     <ion-fab-button (click)="fileInput.click()">
       <ion-icon name="cloud-upload-outline"></ion-icon>
     </ion-fab-button>

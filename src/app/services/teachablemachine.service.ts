@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,8 @@ export class TeachablemachineService {
   private model: any;
   private classLabels: string[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   async loadModel() {
     try {

@@ -35,3 +35,13 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+:root {
+  /* General font sizes */
+  --ion-font-size: 16px; /* Changes base font size globally */
+}
+
+ion-header, ion-content, ion-title, ion-card-content, ion-card, ion-card-header, ion-button {
+  font-size: var(--ion-font-size);
+}

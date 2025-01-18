@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import {Component} from '@angular/core';
+import {IonApp, IonRouterOutlet, IonTitle} from '@ionic/angular/standalone';
+import {AccesibilidadService} from './services/accesibilidad.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonApp, IonRouterOutlet, IonTitle,],
+  providers: [AccesibilidadService],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(protected accesibilidadService: AccesibilidadService) {
+
+  }
 }

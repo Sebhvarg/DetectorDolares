@@ -1,15 +1,16 @@
-import { ViewChild, ElementRef, Component, signal, OnInit } from '@angular/core';
+import {ViewChild, ElementRef, Component, signal, OnInit} from '@angular/core';
 import {
   IonCardContent, IonButton, IonList, IonItem, IonLabel,
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonFab, IonFabButton, IonIcon, IonCard,
 } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-import { addIcons } from 'ionicons';
-import { cloudUploadOutline } from 'ionicons/icons';
-import { TeachablemachineService } from '../services/teachablemachine.service';
-import { PercentPipe } from '@angular/common';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import {ExploreContainerComponent} from '../explore-container/explore-container.component';
+import {addIcons} from 'ionicons';
+import {cloudUploadOutline} from 'ionicons/icons';
+import {TeachablemachineService} from '../services/teachablemachine.service';
+import {PercentPipe} from '@angular/common';
+import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
+import {AccesibilidadService} from '../services/accesibilidad.service'
 
 
 @Component({
@@ -26,10 +27,18 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 export class Tab1Page implements OnInit {
 
-  @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('image', {static: false}) imageElement!: ElementRef<HTMLImageElement>;
   imageReady = signal(false)
   imageUrl = signal("")
   captureImage: string | undefined;
+  modelLoaded = signal(false);
+  classLabels: string[] = [];
+  /* Lista de predicciones */
+  predictions: any[] = [];
+
+  constructor(private teachablemachine: TeachablemachineService, protected accesibilidadService: AccesibilidadService) {
+    addIcons({cloudUploadOutline});
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -49,22 +58,12 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  modelLoaded = signal(false);
-  classLabels: string[] = [];
-
-  constructor(private teachablemachine: TeachablemachineService) {
-    addIcons({ cloudUploadOutline });
-  }
-
   /* Método ngOnInit para cargar el modelo y las clases */
   async ngOnInit() {
     await this.teachablemachine.loadModel()
     this.classLabels = this.teachablemachine.getClassLabels()
     this.modelLoaded.set(true)
   }
-  /* Lista de predicciones */
-  predictions: any[] = [];
-
 
   /* Método para obtener la predicción a partir de la imagen */
   async predict() {
@@ -76,6 +75,7 @@ export class Tab1Page implements OnInit {
       alert('Error al realizar la predicción.');
     }
   }
+
   async openCamera() {
     try {
       const image = await Camera.getPhoto({
@@ -84,9 +84,9 @@ export class Tab1Page implements OnInit {
         resultType: CameraResultType.Base64,
         source: CameraSource.Camera,
       });
-  
+
       this.captureImage = image.base64String;
-  
+
       // Verifica que `this.captureImage` no sea undefined antes de asignar
       this.imageUrl.set(this.captureImage || ''); // Usa un valor vacío como fallback
       this.imageReady.set(true);
@@ -95,6 +95,7 @@ export class Tab1Page implements OnInit {
       alert('Error al acceder a la cámara.');
     }
   }
+
   async openGallery() {
     try {
       const image = await Camera.getPhoto({
@@ -103,9 +104,9 @@ export class Tab1Page implements OnInit {
         resultType: CameraResultType.Base64,
         source: CameraSource.Photos,
       });
-  
+
       this.captureImage = image.base64String;
-  
+
       // Verifica que `this.captureImage` no sea undefined antes de asignar
       this.imageUrl.set(this.captureImage || ''); // Usa un valor vacío como fallback
       this.imageReady.set(true);
@@ -114,9 +115,10 @@ export class Tab1Page implements OnInit {
       alert('Error al acceder a la galería.');
     }
   }
+
   async clearImage() {
     this.imageUrl.set('');
     this.imageReady.set(false);
   }
-    
+
 }
