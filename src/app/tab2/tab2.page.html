@@ -13,21 +13,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-button (click)="accesibilidadService.SetFontSize(accesibilidadService.GetFontSize() + 2)">
-    Aumentar
-  </ion-button>
-  <ion-button (click)="accesibilidadService.SetFontToDefaultSize()">
-    Default
-  </ion-button>
+  <ion-grid>
+    <ion-label>
+      Tamaño de la letra: aA
+    </ion-label>
+  </ion-grid>
+
   <ion-button (click)="accesibilidadService.SetFontSize(accesibilidadService.GetFontSize() - 2)">
-    Disminuir
+    <ion-icon aria-hidden="true" name="remove"></ion-icon>
+    <ion-label>Disminuir</ion-label>
   </ion-button>
+
+  <ion-button (click)="accesibilidadService.SetFontToDefaultSize()">
+    <ion-icon aria-hidden="true" name="refresh"></ion-icon>
+    <ion-label>Default</ion-label>
+  </ion-button>
+
+  <ion-button (click)="accesibilidadService.SetFontSize(accesibilidadService.GetFontSize() + 2)">
+    <ion-icon aria-hidden="true" name="add"></ion-icon>
+    <ion-label>Aumentar</ion-label>
+  </ion-button>
+
   <div>
     <ion-label>
       Fuente actual: {{ accesibilidadService.GetFontSize() }}
     </ion-label>
   </div>
+
   <div>
+    <ion-label>
+      Texto de ejemplo:
+    </ion-label>
     <ion-label>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
       magna aliqua. Ut enim ad minim veniam,
